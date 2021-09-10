@@ -17,6 +17,7 @@ namespace Psychonauts2PositionSaver
         private static bool steamVersion = false;
         private static bool steamVersion2 = false;
         private static bool gogVersion = false;
+        private static bool gogVersion2 = false;
         private static bool gamepassVersion = false;
         private static long offsetsAddedX = 0;
         private static long offsetsAddedY = 0;
@@ -59,6 +60,10 @@ namespace Psychonauts2PositionSaver
                 {
                     // GOG version
                     gogVersion = true;
+                }
+                else if (whichVersion == 92196864)
+                {
+                    gogVersion2 = true;
                 }
             }
             else if (processes.Any(x => x.ProcessName == "Psychonauts2-WinGDK-Shipping"))
@@ -185,6 +190,34 @@ namespace Psychonauts2PositionSaver
                         offsetsAddedZ = Vam.ReadInt64((IntPtr)offsetsAddedZ + 0xD8);
                         z = Vam.ReadFloat((IntPtr)offsetsAddedZ + 0x1F8);
                     }
+                    else if (gogVersion2)
+                    {
+                        long baseAddressX = Vam.ReadInt64((IntPtr)(Vam.getBaseAddress + 0x051EB118));
+                        offsetsAddedX = Vam.ReadInt64((IntPtr)baseAddressX + 0x98);
+                        offsetsAddedX = Vam.ReadInt64((IntPtr)offsetsAddedX + 0x120);
+                        offsetsAddedX = Vam.ReadInt64((IntPtr)offsetsAddedX + 0x130);
+                        offsetsAddedX = Vam.ReadInt64((IntPtr)offsetsAddedX + 0xE8);
+                        offsetsAddedX = Vam.ReadInt64((IntPtr)offsetsAddedX + 0x28);
+                        offsetsAddedX = Vam.ReadInt64((IntPtr)offsetsAddedX + 0xD8);
+                        x = Vam.ReadFloat((IntPtr)offsetsAddedX + 0x1F0);
+
+                        long baseAddressY = Vam.ReadInt64((IntPtr)(Vam.getBaseAddress + 0x051EB118));
+                        offsetsAddedY = Vam.ReadInt64((IntPtr)baseAddressY + 0x10);
+                        offsetsAddedY = Vam.ReadInt64((IntPtr)offsetsAddedY + 0x120);
+                        offsetsAddedY = Vam.ReadInt64((IntPtr)offsetsAddedY + 0x1D0);
+                        offsetsAddedY = Vam.ReadInt64((IntPtr)offsetsAddedY + 0x2C0);
+                        offsetsAddedY = Vam.ReadInt64((IntPtr)offsetsAddedY + 0xD8);
+                        y = Vam.ReadFloat((IntPtr)offsetsAddedY + 0x1F4);
+
+                        long baseAddressZ = Vam.ReadInt64((IntPtr)(Vam.getBaseAddress + 0x0527B3C0));
+                        offsetsAddedZ = Vam.ReadInt64((IntPtr)baseAddressZ + 0x8);
+                        offsetsAddedZ = Vam.ReadInt64((IntPtr)offsetsAddedZ + 0x8);
+                        offsetsAddedZ = Vam.ReadInt64((IntPtr)offsetsAddedZ + 0x1B0);
+                        offsetsAddedZ = Vam.ReadInt64((IntPtr)offsetsAddedZ + 0x10);
+                        offsetsAddedZ = Vam.ReadInt64((IntPtr)offsetsAddedZ + 0x8);
+                        offsetsAddedZ = Vam.ReadInt64((IntPtr)offsetsAddedZ + 0x98);
+                        z = Vam.ReadFloat((IntPtr)offsetsAddedZ + 0x1F8);
+                    }
                     else if (gamepassVersion)
                     {
                         long baseAddressX = Vam.ReadInt64((IntPtr)(Vam.getBaseAddress + 0x0513A0C0));
@@ -237,7 +270,7 @@ namespace Psychonauts2PositionSaver
                     {
                         if (vkCode == (int)KeyDefinitions.F2)
                         {
-                            if (steamVersion || steamVersion2 || gogVersion || gamepassVersion)
+                            if (steamVersion || steamVersion2 || gogVersion || gogVersion2 || gamepassVersion)
                             {
                                 Vam.WriteFloat((IntPtr)offsetsAddedX + 0x1F0, float.Parse(form.label10.Text));
                                 Vam.WriteFloat((IntPtr)offsetsAddedY + 0x1F4, float.Parse(form.label11.Text));
@@ -246,7 +279,7 @@ namespace Psychonauts2PositionSaver
                         }
                         else
                         {
-                            if (steamVersion || steamVersion2 || gogVersion || gamepassVersion)
+                            if (steamVersion || steamVersion2 || gogVersion || gogVersion2 || gamepassVersion)
                             {
                                 Vam.WriteFloat((IntPtr)offsetsAddedX + 0x1F0, float.Parse(form.label13.Text));
                                 Vam.WriteFloat((IntPtr)offsetsAddedY + 0x1F4, float.Parse(form.label14.Text));

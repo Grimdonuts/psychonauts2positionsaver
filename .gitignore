@@ -2,6 +2,8 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/.vs
-/SaveStatePsychonauts/.vs/SaveStatePsychonauts/v16
-/SaveStatePsychonauts/obj
+/.vs/*
+Psychonauts2PositionSaver/bin/*
+Psychonauts2PositionSaver/obj/*
+Psychoanuts2PositionSaver/.vs/Psychonauts2PositionSaver/v16/.suo
+Psychoanuts2PositionSaver/.vs/Psychonauts2PositionSaver/v16/.suo
